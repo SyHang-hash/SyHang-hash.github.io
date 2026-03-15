@@ -972,6 +972,24 @@ document.addEventListener('DOMContentLoaded', () => {
     openMobileMenu()
   }
 
+  const pjaxTransition = () => {
+    const htmlEl = document.documentElement
+    const OUT_CLASS = 'pjax-out'
+    const IN_CLASS = 'pjax-in'
+
+    btf.addGlobalFn('pjaxSend', () => {
+      htmlEl.classList.remove(IN_CLASS)
+      htmlEl.classList.add(OUT_CLASS)
+    }, 'pjaxTransitionOut')
+
+    btf.addGlobalFn('pjaxComplete', () => {
+      htmlEl.classList.remove(OUT_CLASS)
+      htmlEl.classList.add(IN_CLASS)
+      window.setTimeout(() => htmlEl.classList.remove(IN_CLASS), 300)
+    }, 'pjaxTransitionIn')
+  }
+
+  pjaxTransition()
   btf.addGlobalFn('pjaxComplete', refreshFn, 'refreshFn')
   refreshFn()
   unRefreshFn()
